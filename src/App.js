@@ -12,8 +12,14 @@ import Bio from "./bio"
 
 
 
-import { WagmiConfig, createConfig, configureChains, mainnet } from 'wagmi'
+import { WagmiConfig, createConfig, configureChains } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
+
+import { mainnet, polygon, optimism } from 'wagmi/chains'
+import { alchemyProvider } from 'wagmi/providers/alchemy'
+
+import { InjectedConnector } from 'wagmi/connectors/injected'
+
 
 
 
@@ -23,15 +29,15 @@ function App() {
 
   
   
-  const { chains, publicClient, webSocketPublicClient } = configureChains(
-    [mainnet],
-    [publicProvider()],
+  const { chains, publicClient } = configureChains(
+    [mainnet, polygon, optimism],
+    [alchemyProvider({ apiKey: 'yourAlchemyApiKey' }), publicProvider()],
   )
    
   const config = createConfig({
     autoConnect: true,
     publicClient,
-    webSocketPublicClient,
+    
   })
 
   
